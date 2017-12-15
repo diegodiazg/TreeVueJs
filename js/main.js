@@ -2,14 +2,17 @@
 
 var datatree = {
   name: 'MyTree',
+  subItem:false,
   children: [
     { name: 'hello2' },
     { name: 'wat2' },
     {
       name: 'child_folderpddre',
+       subItem:true,
       children: [
         {
           name: 'child_folde_hijo',
+          subItem:true,
           children: [
             { name: 'hello23' },
             { name: 'wat23' }
@@ -19,6 +22,7 @@ var datatree = {
         { name: 'wat24' },
         {
           name: 'child_folder_hijo_2',
+          subItem:true,
           children: [
             { name: 'hello25' },
             { name: 'wat3' }

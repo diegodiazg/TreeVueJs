@@ -23,30 +23,29 @@
 <script type="text/x-template" id="item-template">
 	<li class="has-children">
 		<!--:::::::::::TITULO::::::FOlder-->		
-  		<input type="checkbox" :name ="'group-'+model.name" :id="'group-'+model.name" checked>	  		
-		<label  :class="{bold: isFolder}"
-		    
-		      :for="'group-'+model.name">
+  		<input v-if="isFolder"  type="checkbox" :name ="'group-'+model.name" :id="'group-'+model.name" checked>	  		
+		<label v-if="isFolder" :class="{bold: isFolder}" :for="'group-'+model.name">
 		      <input type="text" @keyup.enter="addText" v-model="model.name" />			      
 		      <!--<span v-if="isFolder">[{{open ? '-' : '+'}}]</span> @dblclick="changeType   @click="toggle"" -->
-		</label>   
-
+		</label> 
 		<!-- SI ES CARPETA Y TIENE HIJOS-->
-	    <ul  >	  			
-	    	<li class="has-children" >   
-	    		<input type="checkbox" :name ="'sub-group-'+model.name" :id="'sub-group-'+model.name">
-				<label v-if="isFolder" :for="'sub-group-'+model.name"><input type="text" @keyup.enter="addText" v-model="model.name" /></label>
-		    	<ul>
-				     <item v-for="model in model.children" :model="model"></item>
-			      	 <li> 
-			        	<a> 
-			          		<input type="text" @keyup.enter="addText" v-model="model.name" />
-			          	</a>
-				     </li>
-				     <!--<li class="add" @click="addChild"><a>Agregar+</a></li>-->
+	    <ul v-if="isFolder">	  			
+	    	<li class="has-children" >  
+		    	  <!--:::::::::::TITULO::::::SubFolder-->		
+			    <input v-if="isFolder"  type="checkbox" :name ="'sub-group-'+model.name" :id="'sub-group-'+model.name">
+				<label  v-if="isFolder" :for="'sub-group-'+model.name"><input type="text" @keyup.enter="addText" v-model="model.name" />
+				</label>  	    		
+		    	<ul >
+				    <item v-for="model in model.children" :model="model"></item>			      	
+				    <li v-if="!isFolder" :class="{bold: isFolder}" :for="'group-'+model.name">
+			    		<a> 
+				      		<input type="text" @keyup.enter="addText" v-model="model.name" />			      
+			    		</a>
+			      		<!--<span v-if="isFolder">[{{open ? '-' : '+'}}]</span> @dblclick="changeType   @click="toggle"" -->
+					</li> 
+				    <li class="add" @click="addChild"><a>Agregar+</a></li>
 		      	</ul>
-	      	</li>
-	      	
+	      	</li>	      	
 	    </ul>
   </li>
 </script>
