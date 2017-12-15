@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="css/main.css">
+	<title>vue test</title>
+</head>
+<body>
+	<!-- the demo root element -->
+<div id="demo">
+	<div style="margin-right: 50%; position: absolute; width: 50%;" >
+		<ul class="cd-accordion-menu">
+		  <item  class="item" :model="treeData">
+		  </item>	 
+		</ul>
+	</div>
+ 	<div style=" margin-left: 50%; color:black;position: absolute; margin-top: 70px;">	  	
+  		<pre>{{treeData}}</pre>
+  	</div>
+</div>
+
+</body>
+<!-- item template -->
+<script type="text/x-template" id="item-template">
+	<li class="has-children">
+		<!--:::::::::::TITULO::::::FOlder-->		
+  		<input type="checkbox" :name ="'group-'+model.name" :id="'group-'+model.name" checked>	  		
+		<label  :class="{bold: isFolder}"
+		    
+		      :for="'group-'+model.name">
+		      <input type="text" @keyup.enter="addText" v-model="model.name" />			      
+		      <!--<span v-if="isFolder">[{{open ? '-' : '+'}}]</span> @dblclick="changeType   @click="toggle"" -->
+		</label>   
+
+		<!-- SI ES CARPETA Y TIENE HIJOS-->
+	    <ul  >	  			
+	    	<li class="has-children" >   
+	    		<input type="checkbox" :name ="'sub-group-'+model.name" :id="'sub-group-'+model.name">
+				<label v-if="isFolder" :for="'sub-group-'+model.name"><input type="text" @keyup.enter="addText" v-model="model.name" /></label>
+		    	<ul>
+				     <item v-for="model in model.children" :model="model"></item>
+			      	 <li> 
+			        	<a> 
+			          		<input type="text" @keyup.enter="addText" v-model="model.name" />
+			          	</a>
+				     </li>
+				     <!--<li class="add" @click="addChild"><a>Agregar+</a></li>-->
+		      	</ul>
+	      	</li>
+	      	
+	    </ul>
+  </li>
+</script>
+
+
+
+<script src="js/vue.js"></script>
+<script src="js/main.js"></script>
+</html>
+
+
+
+
+
