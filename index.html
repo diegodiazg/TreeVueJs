@@ -35,7 +35,7 @@
       @dblclick="changeType">
      	 <input type="checkbox" @click="this.isComplet"  name="">
        <input type="text" @keyup.enter="addText" v-model="model.name" />	
-       <span  @click="removeChild()" >Delete</span>
+   
       <span  @click="toggle" v-if="isFolder">[{{open ? '-' : '+'}}]</span>
     </div>
     <ul v-show="open" v-if="isFolder">
