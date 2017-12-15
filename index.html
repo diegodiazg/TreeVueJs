@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="css/main.css">
 	<title>vue test</title>
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+
 </head>
 <body>
 	<!-- the demo root element -->
+<p>Doble click en el item para convertir en folder</p>
+<p>Presionar la tecla enter para guardar</p>
+
 <div id="demo">
 	<div style="margin-right: 50%; position: absolute; width: 50%;" >
 		<ul class="cd-accordion-menu">
@@ -20,36 +24,30 @@
 
 </body>
 <!-- item template -->
+<!-- -->
+
+
 <script type="text/x-template" id="item-template">
-	<li class="has-children">
-		<!--:::::::::::TITULO::::::FOlder-->		
-  		<input v-if="isFolder"  type="checkbox" :name ="'group-'+model.name" :id="'group-'+model.name" checked>	  		
-		<label v-if="isFolder" :class="{bold: isFolder}" :for="'group-'+model.name">
-		      <input type="text" @keyup.enter="addText" v-model="model.name" />			      
-		      <!--<span v-if="isFolder">[{{open ? '-' : '+'}}]</span> @dblclick="changeType   @click="toggle"" -->
-		</label> 
-		<!-- SI ES CARPETA Y TIENE HIJOS-->
-	    <ul v-if="isFolder">	  			
-	    	<li class="has-children" >  
-		    	  <!--:::::::::::TITULO::::::SubFolder-->		
-			    <input v-if="isFolder"  type="checkbox" :name ="'sub-group-'+model.name" :id="'sub-group-'+model.name">
-				<label  v-if="isFolder" :for="'sub-group-'+model.name"><input type="text" @keyup.enter="addText" v-model="model.name" />
-				</label>  	    		
-		    	<ul >
-				    <item v-for="model in model.children" :model="model"></item>			      	
-				    <li v-if="!isFolder" :class="{bold: isFolder}" :for="'group-'+model.name">
-			    		<a> 
-				      		<input type="text" @keyup.enter="addText" v-model="model.name" />			      
-			    		</a>
-			      		<!--<span v-if="isFolder">[{{open ? '-' : '+'}}]</span> @dblclick="changeType   @click="toggle"" -->
-					</li> 
-				    <li class="add" @click="addChild"><a>Agregar+</a></li>
-		      	</ul>
-	      	</li>	      	
-	    </ul>
+  <li>
+
+    <div  class="text" 
+      :class="{bold: isFolder}"     
+      @dblclick="changeType">
+     	 <input type="checkbox" @click="this.isComplet"  name="">
+       <input type="text" @keyup.enter="addText" v-model="model.name" />	
+       <span  @click="removeChild()" >Delete</span>
+      <span  @click="toggle" v-if="isFolder">[{{open ? '-' : '+'}}]</span>
+    </div>
+    <ul v-show="open" v-if="isFolder">
+      <item
+        class="item"
+        v-for="model in model.children"
+        :model="model">
+      </item>
+      <li class="add" @click="addChild">+</li>
+    </ul>
   </li>
 </script>
-
 
 
 <script src="js/vue.js"></script>

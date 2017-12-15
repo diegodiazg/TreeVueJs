@@ -32,10 +32,14 @@ var datatree = {
     }
   ]
 }
-var data_string = JSON.stringify(datatree);
-localStorage.setItem('tree', data_string);
+
+if(!localStorage.getItem('tree')){
+    var data_string = JSON.stringify(datatree);
+    localStorage.setItem('tree', data_string);
+}
+
 var data = JSON.parse(localStorage.getItem("tree"));
-console.log(data);
+
 // define the item component
 Vue.component('item', {
   template: '#item-template',
@@ -44,20 +48,26 @@ Vue.component('item', {
   },
   data: function () {
     return {
-      open: false
+      open: false,
+      Completed: false,
     }
   },
   computed: {
     isFolder: function () {
       return this.model.children &&
         this.model.children.length
-    }
+    },
+   
   },
+
   methods: {
     toggle: function () {
       if (this.isFolder) {
         this.open = !this.open
       }
+    },
+     isComplet: function () {
+       this.Completed=!this.Completed; 
     },
     changeType: function () {
       if (!this.isFolder) {
@@ -66,33 +76,32 @@ Vue.component('item', {
         this.open = true
       }
     },
-    addChild: function () {    /*	
-    	if (!this.isFolder) {
-    		console.log('folder negado');
-    		//this.model.children.title=this.model.name;  
-      	}
-      	if(this.isFolder){
-      		console.log(folder);
-      	}*/
+    addChild: function () {    
       this.model.children.push({
-        name: 'new stuff'
+        name: 'nueva tarea'
       })
-      this.save(this.model);  
+      this.save();  
+    },
+
+    checked: function () {
+       //Vue.set(this.model, 'name', this.model.name);
+          
     },
 
     addText: function () {
-      	this.model.children.name=this.model.name;  
-      	this.save(this.model);    
+       //Vue.set(this.model, 'name', this.model.name);
+        this.model.name=this.model.name;  
+      	this.save();    
     },
 
-    removeChild: function (index) {    	
-       // this.model.splice(index, 1);
-		//Vue.delete(this.model, index);     
+    removeChild: function (index) {   
+      console.log(this.model);
+      //this.$delete(this.todos, index)
+        //model.$remove('asdasdasdop') 	        
+		    //Vue.delete(this.model);     
     },
-    save: function (model) {   
-    console.log(model); 
-    	var data_string = JSON.stringify(model);
-    	localStorage.setItem('tree',data_string);	    
+    save: function () {   
+      this.$parent.save()    	    
     }
   }
 })
@@ -102,5 +111,12 @@ var demo = new Vue({
   el: '#demo',
   data: {
     treeData: data
+  },
+  methods:{
+    save: function () {   
+      var data_string = JSON.stringify(this.treeData);
+      localStorage.setItem('tree',data_string); 
+    }
+
   }
 })
